@@ -1,1 +1,67 @@
 # EAIFinal_Group5
+
+Requirement : 
+/user-service/.env : 
+```
+PORT=8001
+DB_HOST=YOUR_DATABASE_HOSTNAME
+DB_PORT=YOUR_DATABASE_PORT
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=YOUR_DATABASE_USERNAME
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+```
+/appointment-service/.env :
+```
+PORT=8002
+DB_HOST=YOUR_DATABASE_HOSTNAME
+DB_PORT=YOUR_DATABASE_PORT
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=YOUR_DATABASE_USERNAME
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+```
+/review-service/.env :
+```
+PORT=8003
+DB_HOST=YOUR_DATABASE_HOSTNAME
+DB_PORT=YOUR_DATABASE_PORT
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=YOUR_DATABASE_USERNAME
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+OPENAI_API_KEY=YOUR_OPENAI_KEY
+
+```
+/doctor-service/.env :
+```
+PORT=8004
+DB_HOST=YOUR_DATABASE_HOSTNAME
+DB_PORT=YOUR_DATABASE_PORT
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=YOUR_DATABASE_USERNAME
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+```
+/payment-service/.env :
+```
+PORT=8005
+DB_HOST=YOUR_DATABASE_HOSTNAME
+DB_PORT=YOUR_DATABASE_PORT
+DB_DATABASE=YOUR_DATABASE_NAME
+DB_USERNAME=YOUR_DATABASE_USERNAME
+DB_PASSWORD=YOUR_DATABASE_PASSWORD
+```
+
+NOTES : 
+1. API is run through dockerimages
+2. API is exposed to public through cloudflared via the domain :
+```
+defendercf.online
+#via
+user-service = api1.defendercf.online
+appointment-service = api2.defendercf.online
+review-service = api3.defendercf.online
+doctor-service = api4.defendercf.online
+payment-service = api5.defendercf.online
+```
+3. Web is hosted online via the link : 
+```
+eco-seed.my.id
+```
