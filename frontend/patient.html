@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Portal - Healthcare Services</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #d5d9d9;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #00a085;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+    }
+
+    .nav-tabs {
+      display: flex;
+      background: #f8f9fa;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .nav-tab {
+      flex: 1;
+      min-width: 150px;
+      padding: 15px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #6c757d;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-tab.active {
+      color: #00b894;
+      background: white;
+    }
+
+    .nav-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #00b894;
+    }
+
+    .nav-tab:hover:not(.active) {
+      background: #e9ecef;
+      color: #00b894;
+    }
+
+    .tab-content {
+      padding: 30px;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .service-section {
+      background: #f8f9fa;
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border-left: 4px solid #00b894;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.9rem;
+    }
+
+    .form-control {
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #00b894;
+      box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.1);
+    }
+
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #00b894, #00a085);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #74b9ff, #0984e3);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(116, 185, 255, 0.3);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #fd79a8, #e84393);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(253, 121, 168, 0.3);
+    }
+
+    .card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: #00b894;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .card-id {
+      background: linear-gradient(135deg, #00b894, #00a085);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .result-display {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      max-height: 300px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #00b894;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border-color: #28a745;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border-color: #dc3545;
+    }
+
+    .payment-summary {
+      background: linear-gradient(135deg, #e17055, #d63031);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+
+    .payment-amount {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #6c757d;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    #doctorList table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-family: Arial, sans-serif;
+    }
+
+    #doctorList th, #doctorList td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: left;
+    }
+
+    #doctorList th {
+        background-color: #00b894;
+        color: white;
+        font-weight: bold;
+    }
+
+    #doctorList tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    #doctorList tr:hover {
+        background-color: #e9f5ff;
+        cursor: pointer;
+    }
+
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>
+          <a href="index.html" style="text-decoration: none; color: inherit"
+            >Healthcare Management System</a
+          >
+        </h1>
+        <p>Patient Dashboard</p>
+      </div>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('doctors')">
+          🩺 Find Doctors
+        </button>
+        <button class="nav-tab" onclick="switchTab('appointments')">
+          📅 Book Appointment
+        </button>
+        <button class="nav-tab" onclick="switchTab('my-appointments')">
+          📋 My Appointments
+        </button>
+        <button class="nav-tab" onclick="switchTab('reviews')">
+          ⭐ Submit Review
+        </button>
+        <button class="nav-tab" onclick="switchTab('payments')">
+          💳 Payments
+        </button>
+        <button class="nav-tab" onclick="switchTab('my-reviews')">
+          📝 My Reviews
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <!-- Doctors Tab -->
+        <div id="doctors" class="tab-pane active">
+          <button onclick="getDoctors()" class="btn btn-primary">
+            🔍 Search Doctors
+          </button>
+          <div id="doctorList"></div>
+        </div>
+
+        <!-- Book Appointment Tab -->
+        <div id="appointments" class="tab-pane">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="apptPatientId">Patient ID *</label>
+              <select id="apptPatientId" class="form-control" required>
+                <option value="">Loading patients...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="apptDoctorId">Doctor ID *</label>
+              <select id="apptDoctorId" class="form-control" required>
+                <option value="">Loading doctors...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="apptDate">Date *</label>
+              <input type="date" id="apptDate" class="form-control" required />
+            </div>
+            <div class="form-group">
+              <label for="apptTime">Time *</label>
+              <input type="time" id="apptTime" class="form-control" required />
+            </div>
+          </div>
+          <button
+            onclick="createAppointment()"
+            class="btn btn-primary"
+            id="bookBtn"
+          >
+            📅 Book Appointment
+          </button>
+          <div id="apptResult"></div>
+        </div>
+
+        <!-- My Appointments Tab -->
+        <div id="my-appointments" class="tab-pane">
+          <div class="form-group" style="max-width: 300px">
+            <label for="apptQueryPatientId">Patient ID</label>
+            <select id="apptQueryPatientId" class="form-control">
+              <option value="">Loading patients...</option>
+            </select>
+          </div>
+          <button onclick="getAppointments()" class="btn btn-secondary">
+            📋 Load Appointments
+          </button>
+          <div id="apptList"></div>
+        </div>
+
+        <!-- Submit Review Tab -->
+        <div id="reviews" class="tab-pane">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="reviewAppointmentId">Appointment ID *</label>
+              <select id="reviewAppointmentId" class="form-control" required>
+                <option value="">Loading appointments...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reviewRating">Rating (1-5) *</label>
+              <input
+                type="number"
+                id="reviewRating"
+                class="form-control"
+                min="1"
+                max="5"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="reviewComment">Comment</label>
+            <textarea
+              id="reviewComment"
+              class="form-control"
+              rows="4"
+              placeholder="Share your experience..."
+            ></textarea>
+          </div>
+          <button onclick="submitReview()" class="btn btn-primary">
+            ⭐ Submit Review
+          </button>
+          <div id="reviewResult"></div>
+        </div>
+
+        <!-- Payments Tab -->
+        <div id="payments" class="tab-pane">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="paymentAppointmentId">Appointment ID *</label>
+              <select id="paymentAppointmentId" class="form-control" required>
+                <option value="">Loading appointments...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="paymentAmount">Amount (IDR) *</label>
+              <input
+                type="number"
+                id="paymentAmount"
+                class="form-control"
+                placeholder="0"
+                min="0"
+                step="1"
+                required
+              />
+            </div>
+          </div>
+          <button onclick="makePayment()" class="btn btn-danger">
+            💳 Process Payment
+          </button>
+          <div id="paymentResult"></div>
+        </div>
+
+        <!-- All Reviews Tab -->
+        <div id="my-reviews" class="tab-pane">
+          <div class="form-group" style="max-width: 300px">
+            <label for="reviewPatientID">Patient Name *</label>
+            <select id="reviewPatientID" class="form-control" required>
+              <option value="">Loading patients</option>
+            </select>
+          </div>
+          <button onclick="getReviewsByID()" class="btn btn-secondary">
+            📝 Load Reviews
+          </button>
+          <div id="reviewList"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const doctorEndpoint = "https://api4.defendercf.online/graphql";
+      const appointmentEndpoint = "https://api2.defendercf.online/graphql";
+      const reviewEndpoint = "https://api3.defendercf.online/graphql";
+      const paymentEndpoint = "https://api5.defendercf.online/graphql";
+      const checkerEndpoint =
+        "https://stroke-belize-publicity-chart.trycloudflare.com/graphql";
+
+      let selectedRating = 0;
+
+      // Tab switcher
+      function switchTab(tabId) {
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((tab) => tab.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-pane")
+          .forEach((pane) => pane.classList.remove("active"));
+        event.target.classList.add("active");
+        document.getElementById(tabId).classList.add("active");
+      }
+
+      //
+      const userEndpoint = "https://api1.defendercf.online/graphql";
+
+      async function loadPatients() {
+        try {
+          const query = `query { users { id patient_name } }`;
+          const res = await fetch(userEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const patients = data.data.users;
+          populatePatientDropdowns(patients);
+        } catch (error) {
+          console.error("Failed to load patients:", error.message);
+        }
+      }
+
+      async function loadDoctorsForDropdown() {
+        try {
+          const query = `query { doctors { id name specialty } }`;
+          const res = await fetch(doctorEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const doctors = data.data.doctors;
+          const select = document.getElementById("apptDoctorId");
+          select.innerHTML = '<option value="">Select Doctor</option>';
+
+          doctors.forEach((doctor) => {
+            const option = document.createElement("option");
+            option.value = doctor.id;
+            option.textContent = `${doctor.name} - ${doctor.specialty}`;
+            select.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Failed to load doctors:", error.message);
+          const select = document.getElementById("apptDoctorId");
+          select.innerHTML = '<option value="">Failed to load doctors</option>';
+        }
+      }
+
+      async function loadAppointmentsDropdowns() {
+        try {
+          // Fetch all appointments
+          const query = `
+        query {
+            appointments {
+            id
+            patient_id
+            doctor_id
+            date
+            time
+            }
+        }
+        `;
+          const res = await fetch(appointmentEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const appointments = data.data.appointments;
+
+          // Fetch patients and doctors
+          const patientQuery = `query { users { id patient_name } }`;
+          const doctorQuery = `query { doctors { id name } }`;
+
+          const [patientRes, doctorRes] = await Promise.all([
+            fetch(userEndpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query: patientQuery }),
+            }),
+            fetch(doctorEndpoint, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query: doctorQuery }),
+            }),
+          ]);
+
+          const patientData = await patientRes.json();
+          const doctorData = await doctorRes.json();
+
+          if (patientData.errors)
+            throw new Error(patientData.errors[0].message);
+          if (doctorData.errors) throw new Error(doctorData.errors[0].message);
+
+          const patients = patientData.data.users;
+          const doctors = doctorData.data.doctors;
+
+          // Create lookup maps with string keys
+          const patientMap = new Map(
+            patients.map((p) => [String(p.id), p.patient_name])
+          );
+          const doctorMap = new Map(doctors.map((d) => [String(d.id), d.name]));
+
+          // Prepare options HTML
+          const optionsHTML = appointments
+            .map((appt) => {
+              const patientName =
+                patientMap.get(String(appt.patient_id)) || "Unknown Patient";
+              const doctorName =
+                doctorMap.get(String(appt.doctor_id)) || "Unknown Doctor";
+              const optionText = `${patientName} - Dr. ${doctorName} - ${appt.date} ${appt.time}`;
+              return `<option value="${appt.id}">${optionText}</option>`;
+            })
+            .join("");
+
+          // Populate both dropdowns
+          const reviewSelect = document.getElementById("reviewAppointmentId");
+          if (reviewSelect) {
+            reviewSelect.innerHTML =
+              '<option value="">Select Appointment</option>' + optionsHTML;
+          }
+
+          const paymentSelect = document.getElementById("paymentAppointmentId");
+          if (paymentSelect) {
+            paymentSelect.innerHTML =
+              '<option value="">Select Appointment</option>' + optionsHTML;
+          }
+        } catch (error) {
+          console.error(
+            "Failed to load appointments dropdowns:",
+            error.message
+          );
+
+          const reviewSelect = document.getElementById("reviewAppointmentId");
+          if (reviewSelect) {
+            reviewSelect.innerHTML =
+              '<option value="">Failed to load appointments</option>';
+          }
+
+          const paymentSelect = document.getElementById("paymentAppointmentId");
+          if (paymentSelect) {
+            paymentSelect.innerHTML =
+              '<option value="">Failed to load appointments</option>';
+          }
+        }
+      }
+
+      function populatePatientDropdowns(patients) {
+        // List of all select elements for patient IDs
+        const patientSelectIds = [
+          "apptPatientId",
+          "apptQueryPatientId",
+          "reviewQueryPatientId",
+          "reviewPatientID",
+        ];
+
+        patientSelectIds.forEach((selectId) => {
+          const select = document.getElementById(selectId);
+          if (!select) return;
+
+          // Clear existing options
+          select.innerHTML = '<option value="">Select Patient</option>';
+
+          patients.forEach((patient) => {
+            const option = document.createElement("option");
+            option.value = patient.id;
+            option.textContent = patient.patient_name;
+            select.appendChild(option);
+          });
+        });
+      }
+
+      // Doctor functions
+      async function getDoctors() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Loading...";
+        button.disabled = true;
+        try {
+          const query = `query { doctors { id name specialty } }`;
+          const res = await fetch(doctorEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          displayDoctors(data.data.doctors);
+        } catch (error) {
+          document.getElementById(
+            "doctorList"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+
+      function displayDoctors(doctors) {
+        const doctorList = document.getElementById("doctorList");
+        if (doctors.length === 0) {
+          doctorList.innerHTML = `<p>No doctors available at the moment.</p>`;
+          return;
+        }
+        let html = `
+        <table class="doctor-table">
+          <thead>
+            <tr><th>ID</th><th>Name</th><th>Specialty</th></tr>
+          </thead>
+          <tbody>
+      `;
+        doctors.forEach((d) => {
+          html += `<tr><td>${d.id}</td><td> ${d.name}</td><td>${d.specialty}</td></tr>`;
+        });
+        html += "</tbody></table>";
+        doctorList.innerHTML = html;
+      }
+
+      // Appointment functions
+      async function createAppointment() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Booking...";
+        button.disabled = true;
+
+        try {
+          const patient_id = parseInt(
+            document.getElementById("apptPatientId").value,
+            10
+          );
+          const doctor_id = parseInt(
+            document.getElementById("apptDoctorId").value,
+            10
+          );
+
+          const date = document.getElementById("apptDate").value;
+          const time = document.getElementById("apptTime").value;
+
+          console.log(
+            "Patient ID:",
+            patient_id,
+            "Doctor ID:",
+            doctor_id,
+            "Date:",
+            date,
+            "Time:",
+            time
+          );
+
+          if (isNaN(patient_id) || isNaN(doctor_id) || !date || !time) {
+            throw new Error("All fields are required.");
+          }
+
+          const mutation = `
+          mutation CreateAppointment($input: CreateAppointmentInput!) {
+            createAppointment(input: $input) {
+              id
+              date
+              time
+              status
+            }
+          }`;
+          const variables = { input: { patient_id, doctor_id, date, time } };
+
+          const res = await fetch(appointmentEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: mutation, variables }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          document.getElementById("apptResult").innerHTML = `
+          <div class="card">
+            <div class="card-header">
+              <h4>Appointment Booked!</h4>
+              <span class="card-id">ID: ${data.data.createAppointment.id}</span>
+            </div>
+            <div><strong>Date:</strong> ${data.data.createAppointment.date}</div>
+            <div><strong>Time:</strong> ${data.data.createAppointment.time}</div>
+            <div><strong>Status:</strong> ${data.data.createAppointment.status}</div>
+          </div>
+        `;
+
+          // Reset form
+          document.getElementById("apptPatientId").value = "";
+          document.getElementById("apptDoctorId").value = "";
+          document.getElementById("apptDate").value = "";
+          document.getElementById("apptTime").value = "";
+        } catch (error) {
+          document.getElementById(
+            "apptResult"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+
+      async function getAppointments() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Loading...";
+        button.disabled = true;
+
+        try {
+          const patient_id = parseInt(
+            document.getElementById("apptQueryPatientId").value
+          );
+          if (!patient_id) throw new Error("Please enter your patient ID.");
+
+          const query = `
+          query GetAppointments($patient_id: Int) {
+            appointments(patient_id: $patient_id) {
+              id
+              date
+              time
+              status
+            }
+          }`;
+
+          const res = await fetch(appointmentEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query, variables: { patient_id } }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const appts = data.data.appointments;
+          if (appts.length === 0) {
+            document.getElementById(
+              "apptList"
+            ).innerHTML = `<p>No appointments found.</p>`;
+            return;
+          }
+
+          let html = "";
+          appts.forEach((appt) => {
+            html += `
+            <div class="card">
+              <div class="card-header">
+                <h4>Appointment</h4>
+                <span class="card-id">ID: ${appt.id}</span>
+              </div>
+              <div><strong>Date:</strong> ${appt.date}</div>
+              <div><strong>Time:</strong> ${appt.time}</div>
+              <div><strong>Status:</strong> <span class="status-badge status-${appt.status.toLowerCase()}">${
+              appt.status
+            }</span></div>
+            </div>
+          `;
+          });
+          document.getElementById("apptList").innerHTML = html;
+        } catch (error) {
+          document.getElementById(
+            "apptList"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+      async function checkComment(comment) {
+        const queryexternal = `
+              query CheckText($input: String!) {
+                checkText(input: $input) {
+                  word
+                }
+              }`;
+
+        const res = await fetch(checkerEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            query: queryexternal,
+            variables: { input: comment },
+          }),
+        });
+
+        const data = await res.json();
+        const words = data.data.checkText.map((item) => item.word);
+
+        let censoredComment = comment;
+
+        words.forEach((word) => {
+          // Escape regex special characters in word
+          const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const regex = new RegExp(`\\b${escapedWord}\\b`, "gi");
+
+          const replacement =
+            word[0] + "*".repeat(word.length - 2) + word[word.length - 1];
+
+          censoredComment = censoredComment.replace(regex, replacement);
+        });
+        return censoredComment;
+      }
+      async function submitReview() {
+        const appointment_id = parseInt(
+          document.getElementById("reviewAppointmentId").value,
+          10
+        );
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Submitting...";
+        button.disabled = true;
+
+        try {
+          const rating = parseInt(
+            document.getElementById("reviewRating").value,
+            10
+          );
+          if (isNaN(rating) || rating < 1 || rating > 5)
+            throw new Error("Please enter a rating between 1 and 5.");
+
+          const appointment_id = parseInt(
+            document.getElementById("reviewAppointmentId").value,
+            10
+          );
+          const comment = document.getElementById("reviewComment").value;
+          const censoredComment = await checkComment(comment);
+
+          if (!appointment_id) throw new Error("Appointment ID is required.");
+
+          const mutation = `
+            mutation CreateReview($input: CreateReviewInput!) {
+                createReview(input: $input) {
+                id
+                rating
+                comment
+                comment_censored
+                sentiment
+                }
+            }`;
+
+          const variables = {
+            input: {
+              appointment_id,
+              rating,
+              comment: comment,
+              comment_censored: censoredComment,
+            },
+          };
+
+          const res = await fetch(reviewEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: mutation, variables }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const review = data.data.createReview;
+
+          document.getElementById("reviewResult").innerHTML = `
+            <div class="card">
+                <div class="card-header">
+                <h3>Review Submitted!</h3>
+                <span class="card-id">ID: ${review.id}</span>
+                </div>
+                <div><strong>Rating:</strong> ${"⭐".repeat(
+                  review.rating
+                )}</div>
+                <div><strong>Sentiment:</strong> ${
+                  review.sentiment || "Neutral"
+                }</div>
+                <div><strong>Comment:</strong> ${review.comment_censored}</div>
+            </div>
+            `;
+
+          // Reset form
+          document.getElementById("reviewAppointmentId").value = "";
+          document.getElementById("reviewComment").value = "";
+          document.getElementById("reviewRating").value = "";
+        } catch (error) {
+          document.getElementById(
+            "reviewResult"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+      async function getReviewsByID() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Loading...";
+        button.disabled = true;
+
+        try {
+          const patient_id = parseInt(
+            document.getElementById("reviewPatientID").value
+          );
+          if (!patient_id) throw new Error("Please enter your patient ID.");
+
+          const query = `
+          query GetReviews($patient_id: Int){
+            reviews(patient_id: $patient_id) {
+              id
+              appointment_id
+              rating
+              comment
+              comment_censored
+              sentiment
+            }
+          }`;
+
+          const res = await fetch(reviewEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query, variables: { patient_id } }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const reviews = data.data.reviews;
+          if (reviews.length === 0) {
+            document.getElementById(
+              "reviewList"
+            ).innerHTML = `<p>No reviews found.</p>`;
+            return;
+          }
+
+          let html = "";
+          reviews.forEach((r) => {
+            html += `
+            <div class="card">
+              <div class="card-header">
+                <h4>Review ID: ${r.id}</h4>
+                <span>Appointment ID: ${r.appointment_id}</span>
+              </div>
+              <div><strong>Rating:</strong> ${"⭐".repeat(r.rating)}</div>
+              <div><strong>Sentiment:</strong> ${r.sentiment || "Neutral"}</div>
+              <div><strong>Comment:</strong> ${r.comment_censored}</div>
+            </div>
+          `;
+          });
+          document.getElementById("reviewList").innerHTML = html;
+        } catch (error) {
+          document.getElementById(
+            "reviewList"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+
+      // Payment functions
+      async function makePayment() {
+        const button = event.target;
+        const originalText = button.innerHTML;
+        button.innerHTML = "Processing...";
+        button.disabled = true;
+
+        try {
+          const appointment_id = parseInt(
+            document.getElementById("paymentAppointmentId").value,
+            10
+          );
+          const amount = parseFloat(
+            document.getElementById("paymentAmount").value
+          );
+
+          if (isNaN(appointment_id) || isNaN(amount) || amount <= 0)
+            throw new Error("Valid appointment ID and amount are required.");
+
+          const mutation = `
+          mutation CreatePayment($input: CreatePaymentInput!) {
+            createPayment(input: $input) {
+              id
+              amount
+              status
+            }
+          }`;
+
+          const variables = {
+            input: { appointment_id, amount, status: "completed" },
+          };
+
+          const res = await fetch(paymentEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: mutation, variables }),
+          });
+          const data = await res.json();
+          if (data.errors) throw new Error(data.errors[0].message);
+
+          const payment = data.data.createPayment;
+
+          const rupiahFormatter = new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+          });
+
+          document.getElementById("paymentResult").innerHTML = `
+        <div class="card">
+            <div class="card-header">
+            <h3>Payment Successful!</h3>
+            <span class="card-id">ID: ${payment.id}</span>
+            </div>
+            <div><strong>Amount:</strong> ${rupiahFormatter.format(
+              payment.amount
+            )}</div>
+            <div><strong>Status:</strong> ${payment.status}</div>
+        </div>
+        `;
+
+          // Reset form
+          document.getElementById("paymentAppointmentId").value = "";
+          document.getElementById("paymentAmount").value = "";
+        } catch (error) {
+          document.getElementById(
+            "paymentResult"
+          ).innerHTML = `<div class="alert alert-error">Error: ${error.message}</div>`;
+        } finally {
+          button.innerHTML = originalText;
+          button.disabled = false;
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        loadPatients();
+        loadDoctorsForDropdown();
+        loadAppointmentsDropdowns();
+        setupRatingStars();
+      });
+    </script>
+  </body>
+</html>

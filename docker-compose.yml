@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  all-services:
+    build: .
+    ports:
+      - "8001:8001"
+      - "8002:8002"
+      - "8003:8003"
+      - "8004:8004"
+      - "8005:8005"
+    volumes:
+      - ./user-service/.env:/app/user-service/.env:ro
+      - ./appointment-service/.env:/app/appointment-service/.env:ro
+      - ./review-service/.env:/app/review-service/.env:ro
+      - ./doctor-service/.env:/app/doctor-service/.env:ro
+      - ./payment-service/.env:/app/payment-service/.env:ro
